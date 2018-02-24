@@ -7,7 +7,7 @@
   "main": "main.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/sedwards2009/extraterm.git"
+    "url": "git://github.com/nanobot248/extraterm.git"
   },
   "scripts": {
     "run": "electron src/main_process/Main.js --dev-tools",
