@@ -3,8 +3,8 @@
   "description": "Text Viewer syntax highlighting selector extension for extraterm",
   "version": "1.0.0",
   "devDependencies": {
-    "typescript": "2.6.1",
-    "extraterm-extension-api": "file:../../extraterm-extension-api/"
+    "extraterm-extension-api": "file:../../extraterm-extension-api",
+    "typescript": "2.6.1"
   },
   "main": "src/TextViewerSyntaxHighlightingExtension.js",
   "scripts": {

@@ -238,6 +238,7 @@ export interface EmulatorApi {
   addDataEventListener(eventHandler: DataEventListener): void;
   addTitleChangeEventListener(eventHandler: TitleChangeEventListener): void;
   addWriteBufferSizeEventListener(eventHandler: WriteBufferSizeEventListener): void;
+  addClearScreenEventListener(eventHandler: EventListener): void;
   
   registerApplicationModeHandler(handler: ApplicationModeHandler): void;
 }

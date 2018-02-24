@@ -130,3 +130,4 @@ src/utils/ByteCountingStreamTransform.js
 src/render_process/SupportsDialogStack.js
 extraterm-web-component-decorators/Decorators.d.ts
 extraterm-web-component-decorators/Decorators.js
+/nbproject/

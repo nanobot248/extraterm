@@ -136,6 +136,7 @@ const BELL_EVENT = "BELL_EVENT";
 const DATA_EVENT = "DATA_EVENT";
 const TITLE_EVENT = "TITLE_EVENT";
 const WRITE_BUFFER_SIZE_EVENT = "WRITE_BUFFER_SIZE_EVENT";
+const CLEAR_SCREEN_EVENT = "CLEAR_SCREEN_EVENT";
 
 const MAX_WRITE_BUFFER_SIZE = 1024 * 100;  // 100 KB
 
@@ -815,6 +816,12 @@ export class Emulator implements EmulatorApi {
   private markRowRangeForRefresh(start: number, end: number): void {
     this._refreshStart = Math.min(start, this._refreshStart);
     this._refreshEnd = Math.max(end + 1, this._refreshEnd);
+  }
+  
+  public sizeUpLines(rows: number): void {
+      this.rows = rows;
+      this.lineAtRow(rows - 1);
+      this.refreshScreen();
   }
   
   lineAtRow(row: number): Line {
@@ -2821,6 +2828,8 @@ export class Emulator implements EmulatorApi {
         while (j--) {
           this.eraseLine(j);
         }
+        console.log("clearing screen [2].");
+        this._emit(CLEAR_SCREEN_EVENT);
         break;
       case 3:
         // no saved lines
@@ -4526,6 +4535,11 @@ export class Emulator implements EmulatorApi {
 
   addWriteBufferSizeEventListener(eventHandler: WriteBufferSizeEventListener): void {
     this.addListener(WRITE_BUFFER_SIZE_EVENT, eventHandler);
+  }
+  
+  addClearScreenEventListener(eventHandler: EventListener): void {
+    console.log("Adding clear screen listener: ", eventHandler);
+    this.addListener(CLEAR_SCREEN_EVENT, eventHandler);
   }
 
   private addListener(type: string, listener: any): void {

@@ -761,6 +761,7 @@ export class EtTerminal extends ThemeableElementBase implements Commandable, Acc
     emulator.addTitleChangeEventListener(this._handleTitle.bind(this));
     emulator.addDataEventListener(this._handleTermData.bind(this));
     emulator.addRenderEventListener(this._handleTermSize.bind(this));
+    emulator.addClearScreenEventListener(this._handleTermClearScreen.bind(this));
     
     // Application mode handlers
     const applicationModeHandler: TermApi.ApplicationModeHandler = {
@@ -930,6 +931,13 @@ export class EtTerminal extends ThemeableElementBase implements Commandable, Acc
   private _sendTitleEvent(title: string): void {
     const event = new CustomEvent(EtTerminal.EVENT_TITLE, { detail: {title: title } });
     this.dispatchEvent(event);    
+  }
+  
+  
+  private _handleTermClearScreen(evt: Event): void {
+      //TODO: optimize
+      console.log("handle clear screen.");
+      this._emulator.sizeUpLines(this._rows);
   }
   
   private _enterCursorMode(): void {
