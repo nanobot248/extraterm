@@ -56,8 +56,8 @@ function main() {
   exec("npm run build-extensions");
 
   echo("Removing development dependencies");
-  exec("npm prune --production");
-  exec("npm run npm-prune-extensions");
+  //exec("npm prune --production");
+  //exec("npm run npm-prune-extensions");
 
   // Create the commands zip
   echo("Creating commands.zip");
@@ -244,8 +244,11 @@ function main() {
     cd(prevDir);
   }
   
-  replaceDirs(path.join(buildTmpPath, 'extraterm/node_modules'), 'build_scripts/node_modules-win32-x64');
-  makePackage('x64', 'win32')
+  //replaceDirs(path.join(buildTmpPath, 'extraterm/node_modules'), 'build_scripts/node_modules-win32-x64');
+  replaceDirs(path.join(buildTmpPath, 'extraterm/node_modules'), 'build_scripts/node_modules-linux-x64');
+  makePackage('x64', 'linux')
+    .then( () => { log("Done"); } );
+  /*makePackage('x64', 'win32')
     .then( () => {
       replaceDirs(path.join(buildTmpPath, 'extraterm/node_modules'), 'build_scripts/node_modules-linux-x64');
       return makePackage('x64', 'linux'); })
@@ -256,9 +259,7 @@ function main() {
       
     .then( () => {
       replaceDirs(path.join(buildTmpPath, 'extraterm/node_modules'), 'build_scripts/node_modules-darwin-x64');
-      return makePackage('x64', 'darwin'); })
-      
-    .then( () => { log("Done"); } );
+      return makePackage('x64', 'darwin'); })*/
 }
 
 main();

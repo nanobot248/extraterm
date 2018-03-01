@@ -189,7 +189,7 @@ function startUpMainWebUi(): void {
   // Detect when the last tab has closed.
   mainWebUi.addEventListener(MainWebUi.EVENT_TAB_CLOSED, (ev: CustomEvent) => {
     if (mainWebUi.getTabCount() === 0) {
-      WebIpc.windowCloseRequest();
+      WebIpc.windowCloseRequest(Electron.remote.getCurrentWindow().id);
     }
   });
   
@@ -199,15 +199,15 @@ function startUpMainWebUi(): void {
   });
 
   mainWebUi.addEventListener(MainWebUi.EVENT_MINIMIZE_WINDOW_REQUEST, () => {
-    WebIpc.windowMinimizeRequest();
+    WebIpc.windowMinimizeRequest(Electron.remote.getCurrentWindow().id);
   });
 
   mainWebUi.addEventListener(MainWebUi.EVENT_MAXIMIZE_WINDOW_REQUEST, () => {
-    WebIpc.windowMaximizeRequest();
+    WebIpc.windowMaximizeRequest(Electron.remote.getCurrentWindow().id);
   });
 
   mainWebUi.addEventListener(MainWebUi.EVENT_CLOSE_WINDOW_REQUEST, () => {
-    WebIpc.windowCloseRequest();
+    WebIpc.windowCloseRequest(Electron.remote.getCurrentWindow().id);
   });
 
   mainWebUi.addEventListener(EVENT_DRAG_STARTED, (ev: CustomEvent): void => {
@@ -379,7 +379,7 @@ function setupOSXMenus(mainWebUi: MainWebUi): void {
       {
         label: 'Quit',
         click(item, focusedWindow) {
-          WebIpc.windowCloseRequest();
+          WebIpc.windowCloseRequest(Electron.remote.getCurrentWindow().id);
         },
         accelerator: 'Command+Q'
       }

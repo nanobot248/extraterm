@@ -73,6 +73,10 @@ export interface Message {
   type: MessageType;
 }
 
+export interface WindowMessage extends Message {
+  windowId: number;
+}
+
 /**
  * A request from a render process to main requesting the configuration to be
  * sent. The response is a `ConfigMessage`.
@@ -372,7 +376,7 @@ export interface ClipboardReadMessage extends Message {
  *
  * This is sent from a render process (and window) to the main process.
  */
-export interface WindowCloseRequestMessage extends Message {  
+export interface WindowCloseRequestMessage extends WindowMessage {  
 }
 
 /**
@@ -380,7 +384,7 @@ export interface WindowCloseRequestMessage extends Message {
  *
  * This is sent from a render process (and window) to the main process.
  */
-export interface WindowMinimizeRequestMessage extends Message {  
+export interface WindowMinimizeRequestMessage extends WindowMessage {  
 }
 
 /**
@@ -388,7 +392,7 @@ export interface WindowMinimizeRequestMessage extends Message {
  *
  * This is sent from a render process (and window) to the main process.
  */
-export interface WindowMaximizeRequestMessage extends Message {  
+export interface WindowMaximizeRequestMessage extends WindowMessage {  
 }
 
 /**

@@ -149,8 +149,11 @@ export function clipboardReadRequest(): void {
   ipc.send(Messages.CHANNEL_NAME, msg);      
 }
 
-export function windowCloseRequest(): void {
-  const msg: Messages.WindowCloseRequestMessage = { type: Messages.MessageType.WINDOW_CLOSE_REQUEST };
+export function windowCloseRequest(windowId: number): void {
+  const msg: Messages.WindowCloseRequestMessage = {
+    type: Messages.MessageType.WINDOW_CLOSE_REQUEST,
+    windowId: windowId
+  };
   ipc.send(Messages.CHANNEL_NAME, msg);  
 }
 
@@ -171,13 +174,19 @@ export function requestNewTagSync(): string {
   return newTagMessage.tag;
 }
 
-export function windowMinimizeRequest(): void {
-  const msg: Messages.WindowMinimizeRequestMessage = { type: Messages.MessageType.WINDOW_MINIMIZE_REQUEST };
+export function windowMinimizeRequest(windowId: number): void {
+  const msg: Messages.WindowMinimizeRequestMessage = {
+    type: Messages.MessageType.WINDOW_MINIMIZE_REQUEST,
+    windowId: windowId
+  };
   ipc.send(Messages.CHANNEL_NAME, msg);  
 }
 
-export function windowMaximizeRequest(): void {
-  const msg: Messages.WindowMaximizeRequestMessage = { type: Messages.MessageType.WINDOW_MAXIMIZE_REQUEST };
+export function windowMaximizeRequest(windowId: number): void {
+  const msg: Messages.WindowMaximizeRequestMessage = {
+    type: Messages.MessageType.WINDOW_MAXIMIZE_REQUEST,
+    windowId: windowId
+  };
   ipc.send(Messages.CHANNEL_NAME, msg);  
 }
 

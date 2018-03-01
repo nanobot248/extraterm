@@ -553,6 +553,9 @@ export class MainWebUi extends ThemeableElementBase implements keybindingmanager
   private _createPtyForTerminal(newTerminal: EtTerminal): void {
     const sessionProfile = this._configManager.getConfig().expandedProfiles[0];
     const newEnv = _.cloneDeep(process.env);
+    newEnv['IS_EXTRATERM'] = 'y';
+    newEnv['TERM'] = 'xterm-256color';
+    
     const expandedExtra = sessionProfile.extraEnv;
 
     let prop: string;

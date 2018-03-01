@@ -46,10 +46,6 @@ SourceMapSupport.install();
 
 // crashReporter.start(); // Report crashes
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the javascript object is GCed.
-let mainWindow: Electron.BrowserWindow = null;
-
 const LOG_FILENAME = "extraterm.log";
 const EXTRATERM_CONFIG_DIR = "extraterm";
 const MAIN_CONFIG = "extraterm.json";
@@ -71,6 +67,10 @@ const ICO_ICON_PATH = "../../resources/logo/extraterm_small_logo.ico";
 
 const EXTRATERM_DEVICE_SCALE_FACTOR = "--extraterm-device-scale-factor";
 
+// Keep a global reference of the window object, if you don't, the window will
+// be closed automatically when the javascript object is GCed.
+// let mainWindow: Electron.BrowserWindow = null;
+const terminalWindows: Electron.BrowserWindow[] = [];
 
 let themeManager: ThemeManager.ThemeManager;
 let config: Config;
@@ -161,6 +161,12 @@ function main(): void {
     bulkFileStorage.onClose(sendBulkFileStateChangeEvent);
     startIpc();
     
+    createTerminalWindow();
+    createTerminalWindow();
+  });
+}
+
+function createTerminalWindow() {
     // Create the browser window.
     const options = <Electron.BrowserWindowOptions> {
       width: 1200,
@@ -178,7 +184,9 @@ function main(): void {
     }
 
     titleBarVisible = config.showTitleBar;
-    mainWindow = new BrowserWindow(options);
+    const mainWindow = new BrowserWindow(options);
+    const mainWindowId = mainWindow.id;
+    terminalWindows[mainWindowId] = mainWindow;
 
     if ((<any>Commander).devTools) {
       mainWindow.webContents.openDevTools();
@@ -187,10 +195,9 @@ function main(): void {
     mainWindow.setMenu(null);
 
     // Emitted when the window is closed.
-    const mainWindowId = mainWindow.id;
     mainWindow.on('closed', function() {
       cleanUpPtyWindow(mainWindowId);
-      mainWindow = null;
+      delete terminalWindows[mainWindowId];
     });
     
     // and load the index.html of the app.
@@ -203,8 +210,6 @@ function main(): void {
     mainWindow.webContents.on('devtools-opened', function() {
       sendDevToolStatus(mainWindow, true);
     });
-
-  });
 }
 
 function setUpLogging(): void {
@@ -855,6 +860,9 @@ function startIpc(): void {
 
 function handleIpc(event: Electron.IpcMainEvent, arg: any): void {
   const msg: Messages.Message = arg;
+  const windowId = msg['windowId'];
+  const window = windowId != null ? terminalWindows[windowId] : null;
+  
   let reply: Messages.Message = null;
   
   if (LOG_FINE) {
@@ -912,18 +920,18 @@ function handleIpc(event: Electron.IpcMainEvent, arg: any): void {
       break;
       
     case Messages.MessageType.WINDOW_CLOSE_REQUEST:
-      mainWindow.close();
+      window && window.close();
       break;
       
     case Messages.MessageType.WINDOW_MINIMIZE_REQUEST:
-      mainWindow.minimize();
+      window && window.minimize();
       break;
 
     case Messages.MessageType.WINDOW_MAXIMIZE_REQUEST:
-      if (mainWindow.isMaximized()) {
-        mainWindow.unmaximize();
-      } else {
-        mainWindow.maximize();
+      if (window && window.isMaximized()) {
+        window.unmaximize();
+      } else if (window) {
+        window.maximize();
       }
       break;
 
