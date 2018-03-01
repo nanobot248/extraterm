@@ -99,6 +99,7 @@ const COMMAND_FONT_SIZE_DECREASE = "decreaseFontSize";
 const COMMAND_FONT_SIZE_RESET = "resetFontSize";
 const COMMAND_GO_TO_PREVIOUS_FRAME = "goToPreviousFrame";
 const COMMAND_GO_TO_NEXT_FRAME = "goToNextFrame";
+const COMMAND_NEW_TERMINAL_WINDOW = "openNewTerminalWindow";
 
 const CHILD_RESIZE_BATCH_SIZE = 3;
 
@@ -1309,6 +1310,10 @@ export class EtTerminal extends ThemeableElementBase implements Commandable, Acc
     }
   }
 
+  private _createTerminalWindow() {
+      WebIpc.newTerminalWindowRequest();
+  }
+
   // ----------------------------------------------------------------------
   //
   //   #    #                                                 
@@ -1377,6 +1382,8 @@ export class EtTerminal extends ThemeableElementBase implements Commandable, Acc
 
     commandList.push( { id: COMMAND_CLEAR_SCROLLBACK, group: PALETTE_GROUP, iconRight: "eraser", label: "Clear Scrollback", commandExecutor: this } );
     commandList.push( { id: COMMAND_RESET_VT, group: PALETTE_GROUP, iconRight: "refresh", label: "Reset VT", commandExecutor: this } );
+
+    commandList.push( { id: COMMAND_NEW_TERMINAL_WINDOW, group: PALETTE_GROUP, label: "Open new terminal window", commandExecutor: this } );
 
     const keyBindings = this._keyBindingManager.getKeyBindingContexts().context(this._mode === Mode.DEFAULT
         ? KEYBINDINGS_DEFAULT_MODE : KEYBINDINGS_CURSOR_MODE);
@@ -1455,6 +1462,10 @@ export class EtTerminal extends ThemeableElementBase implements Commandable, Acc
 
       case COMMAND_FONT_SIZE_RESET:
         this._resetFontSize();
+        break;
+      
+      case COMMAND_NEW_TERMINAL_WINDOW:
+        this._createTerminalWindow();
         break;
 
       default:

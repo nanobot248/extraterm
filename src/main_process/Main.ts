@@ -162,11 +162,10 @@ function main(): void {
     startIpc();
     
     createTerminalWindow();
-    createTerminalWindow();
   });
 }
 
-function createTerminalWindow() {
+export function createTerminalWindow() {
     // Create the browser window.
     const options = <Electron.BrowserWindowOptions> {
       width: 1200,
@@ -202,6 +201,8 @@ function createTerminalWindow() {
     
     // and load the index.html of the app.
     mainWindow.loadURL(ResourceLoader.toUrl('render_process/main.html'));
+    mainWindow.maximize();
+    mainWindow.focus();
 
     mainWindow.webContents.on('devtools-closed', function() {
       sendDevToolStatus(mainWindow, false);
@@ -925,6 +926,10 @@ function handleIpc(event: Electron.IpcMainEvent, arg: any): void {
       
     case Messages.MessageType.WINDOW_MINIMIZE_REQUEST:
       window && window.minimize();
+      break;
+
+    case Messages.MessageType.NEW_WINDOW:
+      createTerminalWindow();
       break;
 
     case Messages.MessageType.WINDOW_MAXIMIZE_REQUEST:

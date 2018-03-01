@@ -157,6 +157,13 @@ export function windowCloseRequest(windowId: number): void {
   ipc.send(Messages.CHANNEL_NAME, msg);  
 }
 
+export function newTerminalWindowRequest(): void {
+    const msg: Messages.NewWindowMessage = {
+        type: Messages.MessageType.NEW_WINDOW
+    };
+    ipc.send(Messages.CHANNEL_NAME, msg);
+}
+
 export function sendConfig(config: config.Config): void {
   const msg: Messages.ConfigMessage = { type: Messages.MessageType.CONFIG, config: config };
   ipc.send(Messages.CHANNEL_NAME, msg);  

@@ -52,6 +52,7 @@ export const enum MessageType {
   NEW_TAG,
   PTY_OUTPUT_BUFFER_SIZE,
   PTY_INPUT_BUFFER_SIZE_CHANGE,
+  NEW_WINDOW,
 
   BULK_FILE_CREATE,
   BULK_FILE_CREATED,
@@ -75,6 +76,9 @@ export interface Message {
 
 export interface WindowMessage extends Message {
   windowId: number;
+}
+
+export interface NewWindowMessage extends Message {
 }
 
 /**
