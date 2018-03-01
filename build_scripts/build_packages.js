@@ -55,9 +55,9 @@ function main() {
   exec("npm run build");
   exec("npm run build-extensions");
 
-  echo("Removing development dependencies");
-  //exec("npm prune --production");
-  //exec("npm run npm-prune-extensions");
+  /* echo("Removing development dependencies");
+  exec("npm prune --production");
+  exec("npm run npm-prune-extensions"); */
 
   // Create the commands zip
   echo("Creating commands.zip");
