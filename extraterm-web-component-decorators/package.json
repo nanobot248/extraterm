@@ -8,7 +8,7 @@
   "types": "Decorators.d.ts",
   "repository": {
     "type": "git",
-    "url": "git://github.com/sedwards2009/extraterm.git"
+    "url": "git://github.com/nanobot248/extraterm.git"
   },
   "devDependencies": {
     "@types/nodeunit": "0.0.30",
