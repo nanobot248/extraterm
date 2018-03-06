@@ -1,6 +1,9 @@
 *~
 *.map
 .vscode
+dist/
+*/dist/*
+extraterm-linux-x64/
 node_modules/
 src/test/admzip_test.js
 src/test/charattr_test.js

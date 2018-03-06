@@ -6,7 +6,7 @@
     "extraterm-extension-api": "file:../../extraterm-extension-api",
     "typescript": "2.4.2"
   },
-  "main": "src/TextViewerTabWidthExtension.js",
+  "main": "dist/TextViewerTabWidthExtension.js",
   "scripts": {
     "build": "tsc"
   }

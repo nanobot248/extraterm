@@ -9,7 +9,7 @@
         "removeComments": false,
         "sourceMap": true,
         "noLib": false,
-        "outDir": "src",
+        "outDir": "./dist/",
         "jsx": "react",
         "experimentalDecorators": true,
         "typeRoots" : ["./src/typings"],

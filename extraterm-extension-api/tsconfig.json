@@ -9,7 +9,6 @@
         "removeComments": false,
         "sourceMap": true,
         "noLib": false,
-        "outDir": "src",
         "jsx": "react",
         "experimentalDecorators": true,
         "typeRoots" : ["./typings"],
@@ -24,7 +23,8 @@
         "./typings/**/*.ts",
         "!./src/node_modules/**/*.ts"
     ],
-    "files": [
-    ],
-    "exclude": []
+    "exclude": [
+        "./dist/*.*",
+        "./dist/**/*.*"
+    ]
 }

@@ -317,7 +317,7 @@ export class TipViewer extends ViewerElement implements config.AcceptsConfigDist
             kbd.parentNode.removeChild(kbd);
           }
         }
-      }      
+      }
     });
   }
   

@@ -10,7 +10,7 @@
     "url": "git://github.com/nanobot248/extraterm.git"
   },
   "scripts": {
-    "run": "electron src/main_process/Main.js --dev-tools",
+    "run": "electron dist/main_process/Main.js --dev-tools",
     "build-all": "npm run build-web-component-decorators && npm install extraterm-web-component-decorators && npm run npm-install-extension-api && npm run build && npm run build-extensions",
     "build": "npm install extraterm-extension-api && npm install extraterm-web-component-decorators && tsc",
     "build-web-component-decorators": "cd extraterm-web-component-decorators && npm run build",
@@ -29,7 +29,8 @@
     "testterm": "tsc && nodeunit src/render_process/emulator/TermTest.js",
     "typedoc": "node build_scripts/prepare_typedoc.js && cd src && typedoc --target ES5 --name Extraterm --mode file --module amd --out typedocs build_tmp",
     "package": "node build_scripts/build_packages.js",
-    "serve-test": "node src/test/httpserver.js"
+    "serve-test": "node src/test/httpserver.js",
+    "linux-package": "./node_modules/.bin/electron-packager ./ extraterm --ignore='\/extraterm\/src\/'"
   },
   "dependencies": {
     "codemirror": "5.27.4",

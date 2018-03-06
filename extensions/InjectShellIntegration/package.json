@@ -2,10 +2,10 @@
   "name": "inject-shell-integration",
   "description": "Inject Shell Integration extension for Extraterm",
   "version": "1.0.0",
-  "main": "src/InjectShellIntegrationExtension.js",
+  "main": "dist/InjectShellIntegrationExtension.js",
   "scripts": {
     "build": "tsc",
-    "test": "npm run build ; nodeunit src/InjectShellIntegrationExtensionTest.js"
+    "test": "npm run build ; nodeunit dist/InjectShellIntegrationExtensionTest.js"
   },
   "dependencies": {},
   "devDependencies": {

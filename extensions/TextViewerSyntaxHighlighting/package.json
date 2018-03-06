@@ -6,7 +6,7 @@
     "extraterm-extension-api": "file:../../extraterm-extension-api",
     "typescript": "2.6.1"
   },
-  "main": "src/TextViewerSyntaxHighlightingExtension.js",
+  "main": "dist/TextViewerSyntaxHighlightingExtension.js",
   "scripts": {
     "build": "tsc"
   },
