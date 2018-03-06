@@ -45,4 +45,14 @@ export interface Pty {
   onData: Event<string>;
   
   onExit: Event<void>;
+  
+  /**
+   * Try to get the current working directory of the process associated with
+   * this terminal (e.g. bash).
+   * @return Null if there is no associated process or if the CWD cannot be
+   *    retrieved (e.g. no support for the current OS). A string containing
+   *    the current working directory otherwise.
+   *    
+   */
+  getCwd(): string;
 }

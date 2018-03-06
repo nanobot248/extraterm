@@ -32,11 +32,11 @@ export class PtyIpcBridge {
     WebIpc.registerDefaultHandler(Messages.MessageType.PTY_CLOSE, this._handlePtyClose.bind(this));
   }
 
-  createPtyForTerminal(command: string, sessionArguments: string[], newEnv: any, columns: number, rows: number): Pty {
+  createPtyForTerminal(command: string, sessionArguments: string[], newEnv: any, columns: number, rows: number, fromPty?: Pty): Pty {
     const ptyImpl = new PtyImpl();
     ptyImpl.resize(columns, rows);
 
-    WebIpc.requestPtyCreate(command, sessionArguments, columns, rows, newEnv)
+    WebIpc.requestPtyCreate(command, sessionArguments, columns, rows, newEnv, fromPty ? fromPty['_ptyId'] : null)
     .then( (msg: Messages.CreatedPtyMessage) => {
       ptyImpl._ptyId = msg.id;
 
@@ -117,7 +117,7 @@ class PtyImpl implements Pty {
   onExit: Event<void>;
 
   _onWillDestroy: Event<void>;
-
+  
   write(data: string): void {
     if (this._ptyId != null) {
       this._outstandingWriteDataCount += data.length;
@@ -168,5 +168,9 @@ class PtyImpl implements Pty {
     if (this._ptyId != null) {
       WebIpc.ptyClose(this._ptyId);
     }
+  }
+  
+  getCwd(): string {
+      return null;
   }
 }

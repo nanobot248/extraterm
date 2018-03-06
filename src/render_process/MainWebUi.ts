@@ -542,15 +542,43 @@ export class MainWebUi extends ThemeableElementBase implements keybindingmanager
 
     this._addTab(tabWidget, newTerminal);
     this._setUpNewTerminalEventHandlers(newTerminal);
-    this._createPtyForTerminal(newTerminal);
+    this._createPtyForTerminal(newTerminal, tabWidget);
     this._updateTabTitle(newTerminal);
     this._sendTabOpenedEvent();
 
     newTerminal.refresh(ResizeRefreshElementBase.RefreshLevel.COMPLETE);
     return newTerminal;
   }
+  
+  private getCurrentTerminal(tabElement: Element): EtTerminal {
+    console.log("get current terminal: tabElement = ", tabElement);
+    const currentTabWidget = tabElement.tagName === TabWidget.TAG_NAME ? <TabWidget> tabElement : this._splitLayout.getTabWidgetByTabContent(tabElement);
+    console.log("get current terminal: tabWidget = ", currentTabWidget);
+    if (currentTabWidget != null) {
+      const content: Element = this._splitLayout.getTabContentByTab(currentTabWidget.getSelectedTab());
+      console.log("get current terminal: content = ", content);
+      if (content) {
+          let terminal: EtTerminal = null;
+          if (content.tagName === EtTerminal.TAG_NAME) {
+              terminal = <EtTerminal> content;
+          } else {
+              terminal = <EtTerminal> content.querySelector(EtTerminal.TAG_NAME);
+          }
+          console.log("current terminal: ", terminal);
+          return terminal;
+      } else {
+          return null;
+      }
+    }
+    return null;
+  }
 
-  private _createPtyForTerminal(newTerminal: EtTerminal): void {
+  private _createPtyForTerminal(newTerminal: EtTerminal, tabElement?: Element): void {
+    const currentTerminal: EtTerminal = this.getCurrentTerminal(tabElement);
+    const fromPty = currentTerminal ? currentTerminal.getPty() : null;
+    
+    console.log('current terminal: ', fromPty, currentTerminal, tabElement);
+    
     const sessionProfile = this._configManager.getConfig().expandedProfiles[0];
     const newEnv = _.cloneDeep(process.env);
     newEnv['IS_EXTRATERM'] = 'y';
@@ -562,8 +590,7 @@ export class MainWebUi extends ThemeableElementBase implements keybindingmanager
     for (prop in expandedExtra) {
       newEnv[prop] = expandedExtra[prop];
     }
-
-    const pty = this._ptyIpcBridge.createPtyForTerminal(sessionProfile.command, sessionProfile.arguments, newEnv, newTerminal.getColumns(), newTerminal.getRows());
+    const pty = this._ptyIpcBridge.createPtyForTerminal(sessionProfile.command, sessionProfile.arguments, newEnv, newTerminal.getColumns(), newTerminal.getRows(), fromPty);
     pty.onExit(() => {
       this.closeTab(newTerminal);
     });

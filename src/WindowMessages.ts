@@ -199,6 +199,8 @@ export interface CreatePtyRequestMessage extends Message {
    * A map of key value pairs which will be used for the environment variables when starting the command.
    */
   env: EnvironmentMap;
+  
+  fromPtyId?: number;
 }
 
 /**

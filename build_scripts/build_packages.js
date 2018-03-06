@@ -37,7 +37,7 @@ function main() {
   // For some reason pwd() is returning "not quite strings" which path.join() doesn't like. Thus "" + ...
   const buildTmpPath = "" + pwd();
   
-  exec("git clone --depth 1 " + gitUrl);
+//  exec("git clone --depth 1 " + gitUrl);
   
   echo("Setting up the run time dependencies in " + BUILD_TMP);
 
@@ -56,8 +56,8 @@ function main() {
   exec("npm run build-extensions");
 
   /* echo("Removing development dependencies");
-  exec("npm prune --production");
-  exec("npm run npm-prune-extensions"); */
+  //exec("npm prune --production");
+  //exec("npm run npm-prune-extensions"); */
 
   // Create the commands zip
   echo("Creating commands.zip");

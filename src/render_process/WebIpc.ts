@@ -97,7 +97,7 @@ export function requestThemeContents(themeIdList: string[], cssFileList: ThemeTy
 }
 
 export function requestPtyCreate(command: string, args: string[], columns: number, rows: number,
-    env: Messages.EnvironmentMap): Promise<Messages.CreatedPtyMessage> {
+    env: Messages.EnvironmentMap, fromPtyId?: number): Promise<Messages.CreatedPtyMessage> {
       
   if (args === undefined) {
     args = [];
@@ -111,6 +111,7 @@ export function requestPtyCreate(command: string, args: string[], columns: numbe
     rows: rows,
     env: env
   };
+  if (fromPtyId) { msg.fromPtyId = fromPtyId; }
   return <Promise<Messages.CreatedPtyMessage>> request(msg, Messages.MessageType.PTY_CREATED);
 }
 

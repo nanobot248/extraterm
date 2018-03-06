@@ -2,6 +2,7 @@
     "compilerOptions": {
         "target": "es6",
         "module": "commonjs",
+        "outDir": "./dist/",
         "declaration": false,
         "noImplicitAny": false,
         "noImplicitThis": true,
@@ -11,15 +12,14 @@
         "noLib": false,
         "outDir": "src",
         "jsx": "react",
-        "experimentalDecorators": true,
         "types": ["fontinfo"],
         "typeRoots" : ["./src/typings"],
         "paths": {
          "*": ["./src/typings/*"]
         },
         "baseUrl": ".",
+        "experimentalDecorators": true,
         "emitDecoratorMetadata": true
-      
     },
     "filesGlob": [
         "./src/*.ts",

@@ -174,6 +174,10 @@ class ProxyPty implements Pty {
   
   destroy(): void {    
   }
+  
+  getCwd(): string {
+      return null;
+  }
 }
 
 function findCygwinPython(cygwinDir: string): string {

@@ -1092,17 +1092,33 @@ interface PtyTuple {
 const ptyMap: Map<number, PtyTuple> = new Map<number, PtyTuple>();
 
 function createPty(sender: Electron.WebContents, file: string, args: string[], env: EnvironmentMap,
-    cols: number, rows: number): number {
+    cols: number, rows: number, fromPtyId?: number): number {
     
   const ptyEnv = _.clone(env);
   ptyEnv["TERM"] = 'xterm';
-
-  const ptyTerm = ptyConnector.spawn(file, args, {
+  
+  const ptyOptions: PtyOptions = {
       name: 'xterm',
       cols: cols,
       rows: rows,
-  //    cwd: process.env.HOME,
-      env: ptyEnv } );
+      env: ptyEnv
+    };
+  
+  if (fromPtyId) {
+      console.log("Got fromPtyId ...");
+      const fromPty = ptyMap.get(fromPtyId);
+      if (fromPty && fromPty.ptyTerm) {
+          console.log("fromPty was found: ", fromPty);
+          const cwd = fromPty.ptyTerm.getCwd();
+          console.log("fromPty CWD: ", cwd);
+          if (cwd) {
+              console.log("CWD of fromPty is: ", cwd);
+              ptyOptions.cwd = cwd;
+          }
+      }
+  }
+
+  const ptyTerm = ptyConnector.spawn(file, args, ptyOptions );
 
   ptyCounter++;
   const ptyId = ptyCounter;
@@ -1146,7 +1162,8 @@ function createPty(sender: Electron.WebContents, file: string, args: string[], e
 }
 
 function handlePtyCreate(sender: Electron.WebContents, msg: Messages.CreatePtyRequestMessage): Messages.CreatedPtyMessage {
-  const id = createPty(sender, msg.command, msg.args, msg.env, msg.columns, msg.rows);
+  //TODO: impl fromPty stuff
+  const id = createPty(sender, msg.command, msg.args, msg.env, msg.columns, msg.rows, msg.fromPtyId);
   const reply: Messages.CreatedPtyMessage = { type: Messages.MessageType.PTY_CREATED, id: id };
   return reply;
 }

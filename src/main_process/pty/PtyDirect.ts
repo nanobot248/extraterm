@@ -13,6 +13,9 @@ import {getLogger, Logger} from '../../logging/Logger';
 import {Pty, BufferSizeChange} from '../../pty/Pty';
 import {PtyConnector, PtyOptions} from './PtyConnector';
 
+import * as os from 'os';
+import * as fs from 'fs';
+
 const MAXIMUM_WRITE_BUFFER_SIZE = 64 * 1024;
 
 
@@ -112,6 +115,20 @@ class DirectPty implements Pty {
         this.realPty.pause();
       }
     }
+  }
+  
+  getCwd(): string {
+      console.log("DirectPty.getCwd: ", this.realPty);
+      if (this.realPty && this.realPty.pid) {
+          console.log("DirectPty.getCwd pid: ", this.realPty.pid, os.type());
+          if (os.type().toLowerCase() == 'linux') {
+              const result = fs.realpathSync('/proc/' + this.realPty.pid + '/cwd');
+              console.log('CWD of the terminal shell process: ' + result);
+              return result;
+          }
+      }
+      
+      return null;
   }
 }
 
