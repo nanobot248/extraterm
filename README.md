@@ -1,3 +1,23 @@
+This a fork of [Extraterm](https://github.com/sedwards2009/extraterm/)
+======================================================================
+
+Notable changes so far
+----------------------
+
+I'm currently only developing for and testing on Linux x64 machines. Windows may follow later. 
+
+    1) CTRL+L (or `clear`, `tput clear`, ...) actually clears the whole screen, not just the currently active terminal input control.
+    2) Added "Open new terminal window" functionality (currently only available in command palette).
+    3) New tabs are started in the same working directory as the currently selected tab.
+    4) Changing build system to separate source code from compiled (via tsc) code and ease extension management.
+
+Planned changes
+---------------
+
+    * Support for filtering for information (e.g. filenames, URLs, dates, ...).
+    * Support for session profiles (working directory, environment, shell, ...).
+    * More configurable command handling (more than just "show box").
+
 ![Extraterm logo](docs/extraterm_main_logo_512x367.png)
 
 *The swiss army chainsaw of terminal emulators*
