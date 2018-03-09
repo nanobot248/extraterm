@@ -14,6 +14,8 @@ I'm currently only developing for and testing on Linux x64 machines. Windows may
 Planned changes
 ---------------
 
+    * Switch to webpack.
+    * Plugin/exension loader that separates extensions/extension-api from the main source tree.
     * Support for filtering for information (e.g. filenames, URLs, dates, ...).
     * Support for session profiles (working directory, environment, shell, ...).
     * More configurable command handling (more than just "show box").
